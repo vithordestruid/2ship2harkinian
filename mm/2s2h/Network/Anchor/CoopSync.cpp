@@ -12,6 +12,7 @@ extern "C" {
 #include "z64actor.h"
 #include "z64interface.h"
 #include "z64play.h"
+#include "z64map.h"
 extern PlayState* gPlayState;
 }
 
@@ -20,6 +21,8 @@ extern PlayState* gPlayState;
 namespace {
 
 bool sApplyingRemote = false;
+
+bool sDungeonItemsUpdatePending = false;
 
 // Itens do chao coletados pelo outro jogador na cena em que o jogador local esta (cena << 8 | flag).
 std::set<s32> sRemoteCollectibles;
@@ -294,6 +297,35 @@ bool CoopSync_WasCollectedRemotely(s16 sceneId, s32 collectibleFlag) {
     }
     // erase devolve quantos foram removidos: o item so e retirado uma vez
     return sRemoteCollectibles.erase((sceneId << 8) | collectibleFlag) > 0;
+}
+
+bool CoopSync_IsDungeonItem(u8 item) {
+    switch (item) {
+        case ITEM_KEY_SMALL:
+        case ITEM_KEY_BOSS:
+        case ITEM_DUNGEON_MAP:
+        case ITEM_COMPASS:
+        case ITEM_STRAY_FAIRIES:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool CoopSync_IsInDungeon() {
+    // dungeonKeys tem 9 posicoes e dungeonItems/strayFairies tem 10: usa o menor limite
+    return gPlayState != nullptr && gSaveContext.mapIndex < ARRAY_COUNT(gSaveContext.save.saveInfo.inventory.dungeonKeys) &&
+           Map_IsInDungeonOrBossScene(gPlayState);
+}
+
+void CoopSync_RequestDungeonItemsUpdate() {
+    sDungeonItemsUpdatePending = true;
+}
+
+bool CoopSync_ConsumeDungeonItemsUpdate() {
+    bool pending = sDungeonItemsUpdatePending;
+    sDungeonItemsUpdatePending = false;
+    return pending;
 }
 
 void CoopSync_OnSceneChange() {

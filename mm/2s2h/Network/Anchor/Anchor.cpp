@@ -164,6 +164,11 @@ void Anchor::RegisterHooks() {
     COND_HOOK(OnSceneFlagSet, isConnected, [&](s16 sceneId, FlagType flagType, u32 flag) {
         if (CoopSync_ShouldSendSceneFlag(sceneId, flagType, flag)) {
             SendPacket_SetFlag(sceneId, flagType, (s32)flag);
+            // Portas trancadas marcam um interruptor ao abrir e so depois descontam a chave
+            // (DoorShutter/EnDoor): o envio das chaves fica para o proximo quadro.
+            if (flagType == FLAG_CYCL_SCENE_SWITCH && CoopSync_IsInDungeon()) {
+                CoopSync_RequestDungeonItemsUpdate();
+            }
         }
     });
 
@@ -182,8 +187,14 @@ void Anchor::RegisterHooks() {
     });
 
     COND_HOOK(OnItemGive, isConnected, [&](u8 item) {
-        if (!CoopSync_IsApplyingRemote() && !IS_RANDO && CoopSync_ShouldShareItem(item)) {
+        if (CoopSync_IsApplyingRemote() || IS_RANDO) {
+            return;
+        }
+        if (CoopSync_ShouldShareItem(item)) {
             SendPacket_GiveVanillaItem(item);
+        } else if (CoopSync_IsDungeonItem(item)) {
+            // Chaves, mapa, bussola, chave do chefe e fadas: envia o estado inteiro da masmorra atual
+            SendPacket_UpdateDungeonItems();
         }
     });
     // #endregion
@@ -210,6 +221,10 @@ void Anchor::RegisterHooks() {
     });
 
     COND_HOOK(OnGameStateMainStart, isConnected, [&]() {
+        if (CoopSync_ConsumeDungeonItemsUpdate()) {
+            SendPacket_UpdateDungeonItems();
+        }
+
         std::queue<nlohmann::json> packetQueue;
         Anchor::Instance->SwapIncomingPacketQueue(packetQueue);
 

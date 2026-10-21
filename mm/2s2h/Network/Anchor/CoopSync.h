@@ -39,6 +39,16 @@ bool CoopSync_ApplyFlag(s16 sceneId, FlagType flagType, s32 flag, bool set);
 // Usado para fazer o item sumir e evitar que seja pego duas vezes.
 bool CoopSync_WasCollectedRemotely(s16 sceneId, s32 collectibleFlag);
 
+// Chaves, mapa, bussola, chave do chefe e fadas perdidas: sincronizados por masmorra (UPDATE_DUNGEON_ITEMS).
+bool CoopSync_IsDungeonItem(u8 item);
+
+// Verdadeiro quando o jogador local esta numa masmorra (tem chaves/mapa proprios).
+bool CoopSync_IsInDungeon();
+
+// Pede o envio das chaves/itens da masmorra no inicio do proximo quadro (Consume devolve e limpa o pedido).
+void CoopSync_RequestDungeonItemsUpdate();
+bool CoopSync_ConsumeDungeonItemsUpdate();
+
 // Chamado ao entrar numa cena: descarta a lista de itens do chao da cena anterior
 // (depois da Cancao do Tempo esses itens voltam a existir e nao podem sumir por engano).
 void CoopSync_OnSceneChange();
