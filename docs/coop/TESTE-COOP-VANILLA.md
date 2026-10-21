@@ -7,11 +7,12 @@ O que este build acrescenta ao Anchor Beta, **só fora do Randomizer**:
 | Flags de história (`weekEventReg`) | Evento visto, NPC ajudado, máscara recebida: vale para os dois |
 | Baús, interruptores, salas limpas, itens fixos do chão | Mesma sala: muda na hora. Outra sala: fica gravado e aparece quando o outro chegar lá |
 | Itens permanentes | Máscaras, equipamentos, melhorias, canções, restos dos chefes, corações e peças de coração, mapas do Tingle |
+| Itens de masmorra | Chaves pequenas, chave do chefe, mapa, bússola e fadas perdidas da masmorra em que quem pegou está. Chave gasta numa porta também desconta para o outro |
 | Notificação | Aparece "<nome> compartilhou um item" com o ícone |
 
 Continua **individual**: rupias, munição, corações e magia de recuperação, conteúdo de garrafa, itens de troca
-(Moon's Tear, escrituras, cartas...), chaves, mapa e bússola de masmorra, fadas perdidas e tokens de Skulltula.
-Os últimos dependem da masmorra em que cada um está e ficam para uma próxima etapa.
+(Moon's Tear, escrituras, cartas...) e tokens de Skulltula (dependem da casa em que cada um está e ficam para
+uma próxima etapa).
 
 Ainda **não** sincroniza: relógio e dia (cada um tem o seu), Canção do Tempo, minigames e cutscenes.
 
@@ -39,7 +40,9 @@ Para cada caso, anote: resultado observado e, se falhar, o horário aproximado (
 | T2.6 | Jogador1 pega uma peça de coração do chão com o Jogador2 na mesma sala | A peça some na tela do Jogador2 e os dois ganham 1 peça | Contagem de peças igual nas duas |
 | T2.7 | Jogador1 pega rupias e munição | Nada muda para o Jogador2 | Carteiras diferentes |
 | T2.8 | Jogador1 desconecta (Disable), pega um item, reconecta | Jogador2 recebe o item quando o Jogador1 volta | Item chega uma vez só |
-| T2.9 | Jogar 10 minutos normalmente juntos | Nada trava, sem itens duplicados | Sem crash; logs sem erros de `[Anchor]` |
+| T2.9 | Os dois na mesma masmorra; Jogador1 pega uma chave pequena | O contador de chaves sobe nas duas telas | Mesmo número de chaves |
+| T2.10 | Jogador1 abre uma porta trancada | A porta abre para os dois e a chave é descontada nas duas telas | Mesmo número de chaves |
+| T2.11 | Jogar 10 minutos normalmente juntos | Nada trava, sem itens duplicados | Sem crash; logs sem erros de `[Anchor]` |
 
 ## Se algo der errado
 
