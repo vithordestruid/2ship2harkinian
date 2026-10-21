@@ -14,7 +14,7 @@ Continua **individual**: rupias, munição, corações e magia de recuperação,
 (Moon's Tear, escrituras, cartas...) e tokens de Skulltula (dependem da casa em que cada um está e ficam para
 uma próxima etapa).
 
-Ainda **não** sincroniza: relógio e dia (cada um tem o seu), Canção do Tempo, minigames e cutscenes.
+Ainda **não** sincroniza: minigames e cutscenes. Relógio e Canção do Tempo existem como opções experimentais (Testes 3 e 4), desligadas por padrão.
 
 ## Preparação
 
