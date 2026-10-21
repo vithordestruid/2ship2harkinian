@@ -80,6 +80,7 @@ class Anchor : public Network {
     nlohmann::json PrepRoomState();
     void RegisterHooks();
     void RefreshClientActors();
+    void HandlePacket_CoopTime(nlohmann::json payload);
     void HandlePacket_AllClientState(nlohmann::json payload);
     void HandlePacket_DamagePlayer(nlohmann::json payload);
     void HandlePacket_DisableAnchor(nlohmann::json payload);
@@ -106,6 +107,7 @@ class Anchor : public Network {
 
     // Packet types //
     inline static const std::string ALL_CLIENT_STATE = "ALL_CLIENT_STATE";
+    inline static const std::string COOP_TIME = "COOP_TIME"; // MM Coop (experimental)
     inline static const std::string DAMAGE_PLAYER = "DAMAGE_PLAYER";
     inline static const std::string DISABLE_ANCHOR = "DISABLE_ANCHOR";
     inline static const std::string GAME_COMPLETE = "GAME_COMPLETE";
@@ -140,6 +142,7 @@ class Anchor : public Network {
     bool CanTeleportTo(uint32_t clientId);
 
     void SendPacket_ClearTeamState(std::string teamId);
+    void SendPacket_CoopTime();
     void SendPacket_DamagePlayer(u32 clientId, u8 damageEffect, u8 damage);
     void SendPacket_GameComplete();
     void SendPacket_GiveItem(u16 modId, s16 getItemId, std::string targetTeamId = "");

@@ -110,6 +110,8 @@ void Anchor::ProcessIncomingPacket(nlohmann::json payload) {
         HandlePacket_UpdateRoomState(payload);
     else if (packetType == UPDATE_DUNGEON_ITEMS)
         HandlePacket_UpdateDungeonItems(payload);
+    else if (packetType == COOP_TIME)
+        HandlePacket_CoopTime(payload);
 }
 
 static bool justReset = false;
@@ -223,6 +225,13 @@ void Anchor::RegisterHooks() {
     COND_HOOK(OnGameStateMainStart, isConnected, [&]() {
         if (CoopSync_ConsumeDungeonItemsUpdate()) {
             SendPacket_UpdateDungeonItems();
+        }
+
+        // MM Coop (experimental): dono da sala envia o relogio a cada ~2 s (40 quadros a 20 fps)
+        static u32 sCoopTimeFrames = 0;
+        if (++sCoopTimeFrames >= 40) {
+            sCoopTimeFrames = 0;
+            SendPacket_CoopTime();
         }
 
         std::queue<nlohmann::json> packetQueue;

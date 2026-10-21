@@ -142,6 +142,12 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::SameLine();
 
     UIWidgets::WindowButton("Toggle Anchor Room Window", "gWindows.AnchorRoom", BenGui::mAnchorRoomWindow);
+
+    // MM Coop (experimental): os dois precisam ligar. O dono da sala envia a hora; os outros acompanham.
+    UIWidgets::CVarCheckbox("Sincronizar relogio (experimental)", "gNetwork.Anchor.Coop.SyncClock",
+                            UIWidgets::CheckboxOptions().DefaultValue(false).Color(THEME_COLOR));
+    UIWidgets::Tooltip("Quem nao e o dono da sala acompanha a hora do dono quando os dois estao no mesmo dia. "
+                       "Ainda nao trata a Cancao do Tempo nem dias diferentes.");
     if (!BenGui::mAnchorRoomWindow->IsVisible()) {
         BenGui::mAnchorRoomWindow->DrawElement();
     }
