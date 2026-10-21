@@ -8,6 +8,7 @@
 #include "2s2h/ShipUtils.h"
 #include "2s2h/Rando/Spoiler/Spoiler.h"
 #include "2s2h/Rando/MiscBehavior/MiscBehavior.h"
+#include "CoopSync.h"
 
 extern "C" {
 #include "variables.h"
@@ -145,6 +146,38 @@ void Anchor::RegisterHooks() {
     });
 
     COND_HOOK(OnPlayerSfx, isConnected, [&](u16 sfxId) { SendPacket_PlayerSfx(sfxId); });
+
+    // #region MM Coop: sincronia da campanha vanilla (flags e itens). As regras ficam em CoopSync.cpp.
+    COND_HOOK(OnFlagSet, isConnected, [&](FlagType flagType, u32 flag) {
+        if (CoopSync_ShouldSendFlag(flagType, flag)) {
+            SendPacket_SetFlag(SCENE_MAX, flagType, (s32)flag);
+        }
+    });
+
+    COND_HOOK(OnFlagUnset, isConnected, [&](FlagType flagType, u32 flag) {
+        if (CoopSync_ShouldSendFlag(flagType, flag)) {
+            SendPacket_UnsetFlag(SCENE_MAX, flagType, (s32)flag);
+        }
+    });
+
+    COND_HOOK(OnSceneFlagSet, isConnected, [&](s16 sceneId, FlagType flagType, u32 flag) {
+        if (CoopSync_ShouldSendSceneFlag(sceneId, flagType, flag)) {
+            SendPacket_SetFlag(sceneId, flagType, (s32)flag);
+        }
+    });
+
+    COND_HOOK(OnSceneFlagUnset, isConnected, [&](s16 sceneId, FlagType flagType, u32 flag) {
+        if (CoopSync_ShouldSendSceneFlag(sceneId, flagType, flag)) {
+            SendPacket_UnsetFlag(sceneId, flagType, (s32)flag);
+        }
+    });
+
+    COND_HOOK(OnItemGive, isConnected, [&](u8 item) {
+        if (!CoopSync_IsApplyingRemote() && !IS_RANDO && CoopSync_ShouldShareItem(item)) {
+            SendPacket_GiveVanillaItem(item);
+        }
+    });
+    // #endregion
 
     COND_HOOK(OnSaveLoad, isConnected, [&](s16 fileNum) { SendPacket_RequestTeamState(); });
 

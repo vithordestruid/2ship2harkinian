@@ -143,15 +143,16 @@ class Anchor : public Network {
     void SendPacket_DamagePlayer(u32 clientId, u8 damageEffect, u8 damage);
     void SendPacket_GameComplete();
     void SendPacket_GiveItem(u16 modId, s16 getItemId, std::string targetTeamId = "");
+    void SendPacket_GiveVanillaItem(u8 item);
     void SendPacket_Handshake();
     void SendPacket_PlayerSfx(u16 sfxId);
     void SendPacket_PlayerUpdate();
     void SendPacket_RequestTeamState();
     void SendPacket_RequestTeleport(u32 clientId);
     void SendPacket_SetCheckStatus(RandoCheckId randoCheckId);
-    void SendPacket_SetFlag(s16 sceneId, s16 flagType, s16 flag);
+    void SendPacket_SetFlag(s16 sceneId, s16 flagType, s32 flag);
     void SendPacket_TeleportTo(u32 clientId);
-    void SendPacket_UnsetFlag(s16 sceneId, s16 flagType, s16 flag);
+    void SendPacket_UnsetFlag(s16 sceneId, s16 flagType, s32 flag);
     void SendPacket_UpdateClientState();
     void SendPacket_UpdateDungeonItems();
     void SendPacket_UpdateRoomState();
