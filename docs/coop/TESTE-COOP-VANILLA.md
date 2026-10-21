@@ -39,10 +39,16 @@ Para cada caso, anote: resultado observado e, se falhar, o horário aproximado (
 | T2.5 | Os dois na mesma sala; Jogador1 pisa num interruptor | A porta/efeito acontece também para o Jogador2 | Mesmo estado nas duas telas |
 | T2.6 | Jogador1 pega uma peça de coração do chão com o Jogador2 na mesma sala | A peça some na tela do Jogador2 e os dois ganham 1 peça | Contagem de peças igual nas duas |
 | T2.7 | Jogador1 pega rupias e munição | Nada muda para o Jogador2 | Carteiras diferentes |
-| T2.8 | Jogador1 desconecta (Disable), pega um item, reconecta | Jogador2 recebe o item quando o Jogador1 volta | Item chega uma vez só |
+| T2.8 | Jogador2 desconecta (Disable); Jogador1 pega um item; Jogador2 reconecta (Enable) | Jogador2 recebe "Save updated from team" e fica com o item | Item aparece uma vez só no Jogador2 |
 | T2.9 | Os dois na mesma masmorra; Jogador1 pega uma chave pequena | O contador de chaves sobe nas duas telas | Mesmo número de chaves |
 | T2.10 | Jogador1 abre uma porta trancada | A porta abre para os dois e a chave é descontada nas duas telas | Mesmo número de chaves |
 | T2.11 | Jogar 10 minutos normalmente juntos | Nada trava, sem itens duplicados | Sem crash; logs sem erros de `[Anchor]` |
+
+## Regra importante de reconexão
+
+Quem **reconecta** recebe o save de quem **ficou conectado** (é assim que o Anchor funciona). Então, o que um
+jogador fizer enquanto estiver desconectado **se perde** quando ele voltar. Para não perder progresso: só jogue
+com o Anchor ligado.
 
 ## Se algo der errado
 
