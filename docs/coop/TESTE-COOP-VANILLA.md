@@ -54,3 +54,17 @@ com o Anchor ligado.
 
 Os logs ficam em `D:\mmcoop\Jogador1\logs` e `D:\mmcoop\Jogador2\logs`. Com o notebook ligado ao Claude,
 basta dizer qual caso falhou e mais ou menos quando.
+
+## Teste 3 (opcional): relógio compartilhado experimental
+
+Só faça depois do Teste 2. A opção fica em Network > Anchor, logo abaixo de "Current Room":
+**Sincronizar relogio (experimental)**. Ligue nas **duas** janelas. Quem criou a sala (o "dono") manda na hora.
+
+| # | Ações | Resultado esperado | Aprovado se |
+|---|---|---|---|
+| T3.1 | Os dois no Dia 1; o não dono fica parado num menu de pausa por 1 minuto real e depois fecha a pausa | Em até 2 s a hora do não dono pula para a hora do dono | Relógios iguais (diferença de poucos minutos do jogo) |
+| T3.2 | Não dono entra num diálogo longo enquanto o dono anda | Nada muda durante o diálogo; ajusta logo depois | Sem salto no meio do texto |
+| T3.3 | Só um dos dois liga a opção | Nada acontece | Relógios independentes |
+| T3.4 | Um passa para o Dia 2 antes do outro | Aparece o aviso "voces estao em dias diferentes" | Nenhum dos dois tem a hora alterada |
+
+Ainda não tratado: Canção do Tempo (voltar ao Dia 1 juntos) e Canção do Tempo Invertida/Dupla.
