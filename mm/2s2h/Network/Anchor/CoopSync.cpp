@@ -1,5 +1,6 @@
 #include "CoopSync.h"
 
+#include <set>
 #include <spdlog/spdlog.h>
 
 #include "2s2h/BenGui/Notification.h"
@@ -19,6 +20,9 @@ extern PlayState* gPlayState;
 namespace {
 
 bool sApplyingRemote = false;
+
+// Itens do chao coletados pelo outro jogador na cena em que o jogador local esta (cena << 8 | flag).
+std::set<s32> sRemoteCollectibles;
 
 // Liga sApplyingRemote enquanto existir no escopo, mesmo se algo lancar excecao.
 struct ApplyingRemoteScope {
@@ -117,6 +121,7 @@ bool ApplyLiveSceneFlag(FlagType flagType, s32 flag, bool set) {
                 return false;
             }
             Flags_SetCollectible(play, flag);
+            sRemoteCollectibles.insert((play->sceneId << 8) | flag);
             return true;
         default:
             return false;
@@ -281,6 +286,18 @@ bool CoopSync_ApplyFlag(s16 sceneId, FlagType flagType, s32 flag, bool set) {
         return ApplyLiveSceneFlag(flagType, flag, set);
     }
     return ApplySavedSceneFlag(sceneId, flagType, flag, set);
+}
+
+bool CoopSync_WasCollectedRemotely(s16 sceneId, s32 collectibleFlag) {
+    if (collectibleFlag <= 0) {
+        return false;
+    }
+    // erase devolve quantos foram removidos: o item so e retirado uma vez
+    return sRemoteCollectibles.erase((sceneId << 8) | collectibleFlag) > 0;
+}
+
+void CoopSync_OnSceneChange() {
+    sRemoteCollectibles.clear();
 }
 
 bool CoopSync_ApplyItem(u8 item) {

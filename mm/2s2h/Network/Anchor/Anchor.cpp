@@ -116,6 +116,7 @@ static bool justReset = false;
 
 void Anchor::RegisterHooks() {
     COND_HOOK(OnSceneSpawnActors, isConnected, [&]() {
+        CoopSync_OnSceneChange();
         SendPacket_UpdateClientState();
         justReset = false;
         shouldRefreshActors = true;
@@ -169,6 +170,14 @@ void Anchor::RegisterHooks() {
     COND_HOOK(OnSceneFlagUnset, isConnected, [&](s16 sceneId, FlagType flagType, u32 flag) {
         if (CoopSync_ShouldSendSceneFlag(sceneId, flagType, flag)) {
             SendPacket_UnsetFlag(sceneId, flagType, (s32)flag);
+        }
+    });
+
+    // Item do chao (rupia fixa, peca de coracao...) pego pelo outro jogador na mesma sala: some aqui tambem.
+    COND_ID_HOOK(OnActorUpdate, ACTOR_EN_ITEM00, isConnected, [&](Actor* actor) {
+        EnItem00* item00 = (EnItem00*)actor;
+        if (gPlayState != nullptr && CoopSync_WasCollectedRemotely(gPlayState->sceneId, item00->collectibleFlag)) {
+            Actor_Kill(actor);
         }
     });
 

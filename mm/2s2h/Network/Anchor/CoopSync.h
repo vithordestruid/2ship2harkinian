@@ -35,6 +35,14 @@ bool CoopSync_ShouldShareItem(u8 item);
 // Retorna falso se o pacote foi ignorado (tipo nao suportado ou valores fora da faixa).
 bool CoopSync_ApplyFlag(s16 sceneId, FlagType flagType, s32 flag, bool set);
 
+// Verdadeiro se este item do chao (EnItem00) foi coletado pelo outro jogador nesta cena.
+// Usado para fazer o item sumir e evitar que seja pego duas vezes.
+bool CoopSync_WasCollectedRemotely(s16 sceneId, s32 collectibleFlag);
+
+// Chamado ao entrar numa cena: descarta a lista de itens do chao da cena anterior
+// (depois da Cancao do Tempo esses itens voltam a existir e nao podem sumir por engano).
+void CoopSync_OnSceneChange();
+
 // Aplica um item recebido. Retorna falso se o item nao e compartilhavel ou o jogo nao esta pronto.
 bool CoopSync_ApplyItem(u8 item);
 
