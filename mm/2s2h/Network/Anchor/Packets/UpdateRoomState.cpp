@@ -24,7 +24,7 @@ nlohmann::json Anchor::PrepRoomState() {
         payload["showLocationsMode"] = 0;
         payload["syncItemsAndFlags"] = 0;
     } else {
-        payload["pvpMode"] = CVarGetInteger("gNetwork.Anchor.RoomSettings.PvpMode", 2);
+        payload["pvpMode"] = CVarGetInteger("gNetwork.Anchor.RoomSettings.PvpMode", 0);
         payload["teleportMode"] = CVarGetInteger("gNetwork.Anchor.RoomSettings.TeleportMode", 1);
         payload["showLocationsMode"] = CVarGetInteger("gNetwork.Anchor.RoomSettings.ShowLocationsMode", 1);
         payload["syncItemsAndFlags"] = CVarGetInteger("gNetwork.Anchor.RoomSettings.SyncItemsAndFlags", 1);
@@ -47,7 +47,7 @@ void Anchor::HandlePacket_UpdateRoomState(nlohmann::json payload) {
     }
 
     roomState.ownerClientId = payload["state"].value("ownerClientId", 0);
-    roomState.pvpMode = payload["state"].value("pvpMode", 2);
+    roomState.pvpMode = payload["state"].value("pvpMode", 0);
     roomState.teleportMode = payload["state"].value("teleportMode", 1);
     roomState.showLocationsMode = payload["state"].value("showLocationsMode", 1);
     roomState.syncItemsAndFlags = payload["state"].value("syncItemsAndFlags", 1);

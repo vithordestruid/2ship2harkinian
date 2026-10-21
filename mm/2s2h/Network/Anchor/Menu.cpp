@@ -172,7 +172,7 @@ void AnchorAdminMenu(WidgetInfo& info) {
 
     if (UIWidgets::CVarCombobox("PvP Mode:", "gNetwork.Anchor.RoomSettings.PvpMode", pvpModes,
                                 UIWidgets::ComboboxOptions()
-                                    .DefaultIndex(2)
+                                    .DefaultIndex(0) // MM Coop: PvP desligado por padrao
                                     .LabelPosition(UIWidgets::LabelPosition::Above)
                                     .Color(THEME_COLOR))) {
         anchor->SendPacket_UpdateRoomState();
