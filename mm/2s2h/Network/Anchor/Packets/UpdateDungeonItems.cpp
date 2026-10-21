@@ -26,6 +26,7 @@ void Anchor::SendPacket_UpdateDungeonItems() {
         return;
     }
     payload["mapIndex"] = gSaveContext.mapIndex;
+    payload["cycle"] = CoopSync_CurrentCycle();
     payload["dungeonItems"] = gSaveContext.save.saveInfo.inventory.dungeonItems[gSaveContext.mapIndex];
     payload["dungeonKeys"] = gSaveContext.save.saveInfo.inventory.dungeonKeys[gSaveContext.mapIndex];
     payload["strayFairies"] = gSaveContext.save.saveInfo.inventory.strayFairies[gSaveContext.mapIndex];
@@ -35,6 +36,12 @@ void Anchor::SendPacket_UpdateDungeonItems() {
 
 void Anchor::HandlePacket_UpdateDungeonItems(nlohmann::json payload) {
     if (!IsSaveLoaded() || !roomState.syncItemsAndFlags) {
+        return;
+    }
+
+    // MM Coop: chaves e fadas zeram a cada ciclo; ignora estado vindo de outro ciclo
+    if (CoopSync_IsFromOtherCycle(payload.contains("cycle"), payload.value("cycle", (s32)-1))) {
+        SPDLOG_DEBUG("[Anchor] UPDATE_DUNGEON_ITEMS ignorado: veio de outro ciclo de 3 dias");
         return;
     }
 

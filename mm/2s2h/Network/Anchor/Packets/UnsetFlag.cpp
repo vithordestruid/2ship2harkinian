@@ -23,12 +23,18 @@ void Anchor::SendPacket_UnsetFlag(s16 sceneId, s16 flagType, s32 flag) {
     payload["sceneId"] = sceneId;
     payload["flagType"] = flagType;
     payload["flag"] = flag;
+    payload["cycle"] = CoopSync_CurrentCycle();
 
     QueueOutgoingPacket(payload);
 }
 
 void Anchor::HandlePacket_UnsetFlag(nlohmann::json payload) {
     if (!IsSaveLoaded() || !roomState.syncItemsAndFlags) {
+        return;
+    }
+
+    if (CoopSync_IsFromOtherCycle(payload.contains("cycle"), payload.value("cycle", (s32)-1))) {
+        SPDLOG_DEBUG("[Anchor] UNSET_FLAG ignorado: veio de outro ciclo de 3 dias");
         return;
     }
 

@@ -170,6 +170,15 @@ bool ApplySavedSceneFlag(s16 sceneId, FlagType flagType, s32 flag, bool set) {
 
 } // namespace
 
+s32 CoopSync_CurrentCycle() {
+    return gSaveContext.save.saveInfo.playerData.threeDayResetCount;
+}
+
+bool CoopSync_IsFromOtherCycle(bool hasCycle, s32 senderCycle) {
+    // Pacotes sem o campo (versoes antigas) sao aceitos
+    return hasCycle && senderCycle != CoopSync_CurrentCycle();
+}
+
 bool CoopSync_IsApplyingRemote() {
     return sApplyingRemote;
 }

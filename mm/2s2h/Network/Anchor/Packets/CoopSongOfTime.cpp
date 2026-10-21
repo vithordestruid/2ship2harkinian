@@ -150,7 +150,15 @@ void Anchor::HandlePacket_CoopSongOfTime(nlohmann::json payload) {
 
 // Chamado a cada quadro (OnGameStateMainStart)
 void Anchor::CoopSongOfTime_Tick() {
-    if (sState == ResetState::None || !IsSaveLoaded()) {
+    if (sState == ResetState::None) {
+        return;
+    }
+    if (!IsSaveLoaded()) {
+        // Voltou para a tela de arquivos ou o jogo nao esta pronto: descarta o pedido em vez de
+        // reiniciar o ciclo de um save carregado depois.
+        if (sState == ResetState::Pending) {
+            sState = ResetState::None;
+        }
         return;
     }
     PlayState* play = gPlayState;

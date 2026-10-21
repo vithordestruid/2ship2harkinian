@@ -21,6 +21,12 @@ extern "C" {
  *    para os ganchos nao reenviarem a mesma mudanca (evita eco infinito entre os jogadores).
  */
 
+// Numero do ciclo de 3 dias (threeDayResetCount). Flags e itens de masmorra levam esse numero no pacote
+// e quem recebe descarta os que vierem de outro ciclo (ex.: o parceiro ainda no ciclo antigo durante
+// os 30 s de espera da Cancao do Tempo).
+s32 CoopSync_CurrentCycle();
+bool CoopSync_IsFromOtherCycle(bool hasCycle, s32 senderCycle);
+
 // Verdadeiro enquanto uma mudanca recebida pela rede esta sendo aplicada.
 bool CoopSync_IsApplyingRemote();
 
