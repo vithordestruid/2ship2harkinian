@@ -112,6 +112,8 @@ void Anchor::ProcessIncomingPacket(nlohmann::json payload) {
         HandlePacket_UpdateDungeonItems(payload);
     else if (packetType == COOP_TIME)
         HandlePacket_CoopTime(payload);
+    else if (packetType == COOP_SONG_OF_TIME)
+        HandlePacket_CoopSongOfTime(payload);
 }
 
 static bool justReset = false;
@@ -216,6 +218,15 @@ void Anchor::RegisterHooks() {
         }
     });
 
+    // MM Coop (experimental): o jogador local confirmou a Cancao do Tempo (o jogo esta em MSGMODE_NEW_CYCLE_0).
+    // Lua caindo, fim de jogo e o reinicio remoto nao entram aqui.
+    COND_HOOK(BeforeEndOfCycleSave, isConnected, [&]() {
+        if (gPlayState != NULL && !CoopSongOfTime_IsApplyingRemoteReset() &&
+            gPlayState->msgCtx.msgMode == MSGMODE_NEW_CYCLE_0) {
+            SendPacket_CoopSongOfTime();
+        }
+    });
+
     COND_HOOK(AfterEndOfCycleSave, isConnected, [&]() {
         if (gPlayState != NULL) {
             SendPacket_UpdateTeamState(CVarGetString("gNetwork.Anchor.TeamId", "default"));
@@ -226,6 +237,9 @@ void Anchor::RegisterHooks() {
         if (CoopSync_ConsumeDungeonItemsUpdate()) {
             SendPacket_UpdateDungeonItems();
         }
+
+        // MM Coop (experimental): Cancao do Tempo pendente do parceiro
+        CoopSongOfTime_Tick();
 
         // MM Coop (experimental): dono da sala envia o relogio a cada ~2 s (40 quadros a 20 fps)
         static u32 sCoopTimeFrames = 0;

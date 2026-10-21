@@ -147,7 +147,20 @@ void AnchorMainMenu(WidgetInfo& info) {
     UIWidgets::CVarCheckbox("Sincronizar relogio (experimental)", "gNetwork.Anchor.Coop.SyncClock",
                             UIWidgets::CheckboxOptions().DefaultValue(false).Color(THEME_COLOR));
     UIWidgets::Tooltip("Quem nao e o dono da sala acompanha a hora do dono quando os dois estao no mesmo dia. "
-                       "Ainda nao trata a Cancao do Tempo nem dias diferentes.");
+                       "Ainda nao trata dias diferentes.");
+
+    UIWidgets::CVarCheckbox("Cancao do Tempo compartilhada (experimental)", "gNetwork.Anchor.Coop.SyncSongOfTime",
+                            UIWidgets::CheckboxOptions().DefaultValue(false).Color(THEME_COLOR));
+    UIWidgets::Tooltip("Os dois precisam ligar. Quando um toca a Cancao do Tempo e confirma, o outro volta ao Dia 1 "
+                       "ao confirmar aqui ou depois de 30 segundos.");
+
+    if (CoopSongOfTime_IsPending()) {
+        UIWidgets::PushStyleButton(THEME_COLOR);
+        if (ImGui::Button("Voltar ao Dia 1 agora")) {
+            CoopSongOfTime_ConfirmNow();
+        }
+        UIWidgets::PopStyleButton();
+    }
     if (!BenGui::mAnchorRoomWindow->IsVisible()) {
         BenGui::mAnchorRoomWindow->DrawElement();
     }

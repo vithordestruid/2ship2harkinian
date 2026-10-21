@@ -81,6 +81,7 @@ class Anchor : public Network {
     void RegisterHooks();
     void RefreshClientActors();
     void HandlePacket_CoopTime(nlohmann::json payload);
+    void HandlePacket_CoopSongOfTime(nlohmann::json payload);
     void HandlePacket_AllClientState(nlohmann::json payload);
     void HandlePacket_DamagePlayer(nlohmann::json payload);
     void HandlePacket_DisableAnchor(nlohmann::json payload);
@@ -108,6 +109,7 @@ class Anchor : public Network {
     // Packet types //
     inline static const std::string ALL_CLIENT_STATE = "ALL_CLIENT_STATE";
     inline static const std::string COOP_TIME = "COOP_TIME"; // MM Coop (experimental)
+    inline static const std::string COOP_SONG_OF_TIME = "COOP_SONG_OF_TIME"; // MM Coop (experimental)
     inline static const std::string DAMAGE_PLAYER = "DAMAGE_PLAYER";
     inline static const std::string DISABLE_ANCHOR = "DISABLE_ANCHOR";
     inline static const std::string GAME_COMPLETE = "GAME_COMPLETE";
@@ -143,6 +145,8 @@ class Anchor : public Network {
 
     void SendPacket_ClearTeamState(std::string teamId);
     void SendPacket_CoopTime();
+    void SendPacket_CoopSongOfTime();
+    void CoopSongOfTime_Tick();
     void SendPacket_DamagePlayer(u32 clientId, u8 damageEffect, u8 damage);
     void SendPacket_GameComplete();
     void SendPacket_GiveItem(u16 modId, s16 getItemId, std::string targetTeamId = "");
@@ -172,6 +176,11 @@ typedef enum {
     /* 6 */ DUMMY_PLAYER_HIT_RESPONSE_FIRE,
     /* 7 */ DUMMY_PLAYER_HIT_RESPONSE_NORMAL,
 } PlayerDamageResponseType;
+
+// MM Coop (experimental): Cancao do Tempo compartilhada (Packets/CoopSongOfTime.cpp)
+bool CoopSongOfTime_IsApplyingRemoteReset();
+bool CoopSongOfTime_IsPending();
+void CoopSongOfTime_ConfirmNow();
 
 class AnchorRoomWindow : public Ship::GuiWindow {
   public:
