@@ -67,4 +67,17 @@ Só faça depois do Teste 2. A opção fica em Network > Anchor, logo abaixo de 
 | T3.3 | Só um dos dois liga a opção | Nada acontece | Relógios independentes |
 | T3.4 | Um passa para o Dia 2 antes do outro | Aparece o aviso "voces estao em dias diferentes" | Nenhum dos dois tem a hora alterada |
 
-Ainda não tratado: Canção do Tempo (voltar ao Dia 1 juntos) e Canção do Tempo Invertida/Dupla.
+## Teste 4 (opcional): Canção do Tempo compartilhada experimental
+
+Ligue **Cancao do Tempo compartilhada (experimental)** nas duas janelas (mesmo lugar da opção do relógio).
+Use saves de teste: este teste salva o fim de ciclo de verdade.
+
+| # | Ações | Resultado esperado | Aprovado se |
+|---|---|---|---|
+| T4.1 | Jogador1 toca a Canção do Tempo e confirma "Sim" | Jogador2 vê o aviso "tocou a Cancao do Tempo"; em 30 s volta ao Dia 1 | Os dois no Dia 1, 6:00 |
+| T4.2 | Igual ao T4.1, mas o Jogador2 clica em **Voltar ao Dia 1 agora** no menu do Anchor | Jogador2 volta na hora | Os dois no Dia 1 |
+| T4.3 | Jogador2 está num diálogo quando o aviso chega | Espera o diálogo terminar e só então volta | Sem travamento |
+| T4.4 | Jogador1 toca a Canção mas responde "Não" | Nada acontece com o Jogador2 | Jogador2 continua no mesmo dia |
+| T4.5 | Depois de voltar, conferir itens e flags | Itens permanentes e máscaras mantidos; rupias, munição e baús do ciclo zerados como no jogo normal | Mesmo estado nas duas janelas |
+
+Ainda não tratado: Canção do Tempo Invertida e Canção de Tempo Dupla, e dias diferentes no relógio.

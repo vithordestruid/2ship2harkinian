@@ -9,7 +9,7 @@ Coop online para dois jogadores na campanha original de Majora's Mask, sem Rando
 |---|---|---|
 | `develop` | 2S2H original, sem mudanças | Intacto |
 | `anchor-beta` | Anchor Beta do garrettjoecox + compilação na nuvem só para Windows | Testado: os dois se veem (21/10/2026) |
-| `coop-vanilla` | `anchor-beta` + campanha compartilhada (flags, itens, masmorras) + relógio experimental | Compila; **ainda não testado jogando** |
+| `coop-vanilla` | `anchor-beta` + campanha compartilhada (flags, itens, masmorras) + relógio e Canção do Tempo experimentais | Compila; **ainda não testado jogando** |
 
 ## Como baixar um build
 
@@ -32,6 +32,7 @@ Veja [TESTE-COOP-VANILLA.md](TESTE-COOP-VANILLA.md).
 |---|---|
 | `mm/2s2h/Network/Anchor/CoopSync.h/.cpp` | **Novo.** Regras do que compartilhar e como aplicar no outro jogo |
 | `mm/2s2h/Network/Anchor/Packets/CoopTime.cpp` | **Novo.** Relógio experimental |
+| `mm/2s2h/Network/Anchor/Packets/CoopSongOfTime.cpp` | **Novo.** Canção do Tempo compartilhada experimental |
 | `mm/2s2h/Network/Anchor/Anchor.cpp` | Ganchos de flags, itens, item do chão e envio do relógio |
 | `mm/2s2h/Network/Anchor/Packets/SetFlag.cpp`, `UnsetFlag.cpp` | Aplicam as flags recebidas (estavam desligadas no Anchor Beta) |
 | `mm/2s2h/Network/Anchor/Packets/GiveItem.cpp` | Item vanilla além do item de Randomizer |
