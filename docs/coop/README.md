@@ -9,7 +9,7 @@ Coop online para dois jogadores na campanha original de Majora's Mask, sem Rando
 |---|---|---|
 | `develop` | 2S2H original, sem mudanças | Intacto |
 | `anchor-beta` | Anchor Beta do garrettjoecox + compilação na nuvem só para Windows | Testado: os dois se veem (21/10/2026) |
-| `coop-vanilla` | `anchor-beta` + campanha compartilhada (flags, itens, masmorras) + relógio e Canção do Tempo experimentais | Compila; Teste 2 (sincronia de itens e flags) aprovado no notebook com duas janelas em 22/10/2026 |
+| `coop-vanilla` | `anchor-beta` + campanha compartilhada (flags, itens, masmorras) + relógio e Canção do Tempo experimentais | Compila. Relógio e Canção do Tempo (Testes 3 e 4) aprovados no notebook com duas janelas em 22/10/2026. Itens e flags (Teste 2) ainda não testados |
 
 ## Como baixar um build
 
